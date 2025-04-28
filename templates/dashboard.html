@@ -1,0 +1,430 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AgroSmart Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-stat {
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    .dashboard-stat:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .quick-action-btn {
+        border-radius: 8px;
+        padding: 12px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .quick-action-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .weather-widget {
+        background: linear-gradient(135deg, #2E86DE, #54A0FF);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .notification-item {
+        border-left: 4px solid transparent;
+        transition: all 0.2s ease;
+    }
+    .notification-item:hover {
+        background-color: rgba(0,0,0,0.03);
+    }
+    .notification-item.unread {
+        border-left-color: var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header py-4 mb-4">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-5 fw-bold">Welcome, {{ session.get('username') }}</h1>
+            <p class="lead text-muted">Your agricultural dashboard for data-driven decisions</p>
+        </div>
+        <div class="col-md-6">
+            <div class="card weather-widget text-white">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">Current Weather</h5>
+                            <h3 class="mb-0">24°C</h3>
+                            <span class="small">Partly Cloudy</span>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-cloud-sun fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="dashboard-stat bg-primary bg-gradient text-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1">Soil Moisture</h6>
+                    <h3 class="mb-0">68%</h3>
+                    <span class="badge bg-light text-primary">Optimal</span>
+                </div>
+                <div>
+                    <i class="fas fa-tint fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-stat bg-success bg-gradient text-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1">Crop Health</h6>
+                    <h3 class="mb-0">92%</h3>
+                    <span class="badge bg-light text-success">Excellent</span>
+                </div>
+                <div>
+                    <i class="fas fa-seedling fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-stat bg-warning bg-gradient text-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1">Pest Risk</h6>
+                    <h3 class="mb-0">17%</h3>
+                    <span class="badge bg-light text-warning">Low</span>
+                </div>
+                <div>
+                    <i class="fas fa-bug fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="dashboard-stat bg-info bg-gradient text-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1">Predicted Yield</h6>
+                    <h3 class="mb-0">+8%</h3>
+                    <span class="badge bg-light text-info">Above Average</span>
+                </div>
+                <div>
+                    <i class="fas fa-chart-line fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Your Agricultural Tools</h4>
+                    <button class="btn btn-sm btn-outline-primary">View All</button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-md-6 p-0">
+                        <div class="p-4 border-end h-100">
+                            <div class="feature-icon bg-primary text-white">
+                                <i class="fas fa-seedling fa-lg"></i>
+                            </div>
+                            <h4>Crop Recommendation</h4>
+                            <p class="text-muted mb-4">Get personalized crop recommendations based on your soil characteristics and environmental conditions.</p>
+                            <a href="{{ url_for('crop_recommendation') }}" class="btn btn-primary quick-action-btn">
+                                <i class="fas fa-arrow-right me-2"></i>Get Recommendations
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 p-0">
+                        <div class="p-4 h-100">
+                            <div class="feature-icon bg-success text-white">
+                                <i class="fas fa-chart-line fa-lg"></i>
+                            </div>
+                            <h4>Price Prediction</h4>
+                            <p class="text-muted mb-4">Predict future prices for agricultural commodities to make informed marketing decisions.</p>
+                            <a href="{{ url_for('commodity_prediction') }}" class="btn btn-success quick-action-btn">
+                                <i class="fas fa-arrow-right me-2"></i>Predict Prices
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-0">
+                   <!--<div class="col-md-6 p-0">
+                        <div class="p-4 border-end border-top h-100">
+                             <div class="feature-icon bg-warning text-white">
+                                <i class="fas fa-cloud-sun-rain fa-lg"></i>
+                            </div> 
+                             <h4>Weather Forecast</h4>
+                            <p class="text-muted mb-4">Get 7-day weather forecasts specific to your farm location to plan your activities.</p>
+                            <a href="#" class="btn btn-warning quick-action-btn">
+                                <i class="fas fa-arrow-right me-2"></i>View Forecast
+                            </a> 
+                        </div>
+                    </div>-->
+                    <!--<div class="col-md-6 p-0">
+                        <div class="p-4 border-top h-100">
+                             <div class="feature-icon bg-info text-white">
+                                <i class="fas fa-calendar-check fa-lg"></i>
+                            </div> 
+                            <h4>Planting Calendar</h4>
+                            <p class="text-muted mb-4">Get personalized planting and harvesting schedules optimized for your crops and location.</p>
+                            <a href="#" class="btn btn-info quick-action-btn">
+                                <i class="fas fa-arrow-right me-2"></i>View Calendar
+                            </a> 
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Notifications</h4>
+                    <span class="badge bg-danger">3 New</span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    <div class="notification-item unread p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-primary text-white rounded-circle p-2">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">Optimal planting time approaching</h6>
+                                <p class="text-muted small mb-0">Best time to plant corn in your region is next week.</p>
+                                <small class="text-muted">2 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-item unread p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-warning text-white rounded-circle p-2">
+                                    <i class="fas fa-cloud-rain"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">Heavy rainfall expected</h6>
+                                <p class="text-muted small mb-0">Prepare drainage systems for expected rainfall in 3 days.</p>
+                                <small class="text-muted">5 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-item unread p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-success text-white rounded-circle p-2">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">Commodity price alert</h6>
+                                <p class="text-muted small mb-0">Wheat prices expected to rise 5% next month.</p>
+                                <small class="text-muted">1 day ago</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-item p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="bg-secondary text-white rounded-circle p-2">
+                                    <i class="fas fa-tractor"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1">Equipment maintenance reminder</h6>
+                                <p class="text-muted small mb-0">Schedule maintenance for your irrigation system.</p>
+                                <small class="text-muted">2 days ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center p-3 border-top">
+                    <a href="#" class="text-decoration-none">View All Notifications</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Crop Prices Trend</h4>
+                    <div>
+                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                            Last 30 Days
+                        </button>
+                        <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
+                            <li><a class="dropdown-item" href="#">Last 90 Days</a></li>
+                            <li><a class="dropdown-item" href="#">Last Year</a></li> 
+                        </ul>
+                        -->
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="priceChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Upcoming Tasks</h4>
+                    <button class="btn btn-sm btn-outline-primary">Add Task</button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h6 class="mb-1">Irrigation system maintenance</h6>
+            <p class="text-muted small mb-0">Scheduled for Friday</p>
+        </div>
+        <div>
+            <span class="badge bg-info">Medium Priority</span>
+        </div>
+    </div>
+</li>
+<li class="list-group-item p-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h6 class="mb-1">Order new seeds for next season</h6>
+            <p class="text-muted small mb-0">Due in 5 days</p>
+        </div>
+        <div>
+            <span class="badge bg-success">Low Priority</span>
+        </div>
+    </div>
+</li>
+<li class="list-group-item p-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h6 class="mb-1">Check soil pH levels</h6>
+            <p class="text-muted small mb-0">Scheduled for next Monday</p>
+        </div>
+        <div>
+            <span class="badge bg-info">Medium Priority</span>
+        </div>
+    </div>
+</li>
+                    </ul>
+                <div class="text-center p-3 border-top">
+                    <a href="#" class="text-decoration-none">View All Tasks</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Initialize price trend chart
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    const priceChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan 1', 'Jan 5', 'Jan 10', 'Jan 15', 'Jan 20', 'Jan 25', 'Jan 30'],
+            datasets: [
+                {
+                    label: 'Wheat',
+                    data: [320, 315, 340, 355, 372, 368, 375],
+                    borderColor: '#2e7d32',
+                    backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Corn',
+                    data: [280, 290, 285, 295, 300, 310, 315],
+                    borderColor: '#1565c0',
+                    backgroundColor: 'rgba(21, 101, 192, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Soybeans',
+                    data: [450, 445, 460, 475, 490, 485, 495],
+                    borderColor: '#f57c00',
+                    backgroundColor: 'rgba(245, 124, 0, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Price ($/ton)'
+                    }
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Initialize dashboard animations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple animation for dashboard stats
+        const stats = document.querySelectorAll('.dashboard-stat');
+        stats.forEach((stat, index) => {
+            setTimeout(() => {
+                stat.style.opacity = '1';
+                stat.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    });
+</script>
+{% endblock %}

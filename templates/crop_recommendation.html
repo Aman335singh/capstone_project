@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Crop Recommendation - Agriculture Application{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Crop Recommendation</h1>
+        <p class="lead">Enter soil properties and environmental factors to get personalized crop recommendations</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Input Parameters</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('predict_crop_route') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="nitrogen" class="form-label">Nitrogen (N) content:</label>
+                            <input type="number" class="form-control" id="nitrogen" name="nitrogen" required min="0" max="150" step="1" placeholder="e.g., 90">
+                            <small class="text-muted">Range: 0-150 kg/ha</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="phosphorus" class="form-label">Phosphorus (P) content:</label>
+                            <input type="number" class="form-control" id="phosphorus" name="phosphorus" required min="0" max="100" step="1" placeholder="e.g., 40">
+                            <small class="text-muted">Range: 0-100 kg/ha</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="potassium" class="form-label">Potassium (K) content:</label>
+                            <input type="number" class="form-control" id="potassium" name="potassium" required min="0" max="200" step="1" placeholder="e.g., 60">
+                            <small class="text-muted">Range: 0-200 kg/ha</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="temperature" class="form-label">Temperature:</label>
+                            <input type="number" class="form-control" id="temperature" name="temperature" required min="10" max="40" step="0.1" placeholder="e.g., 25.5">
+                            <small class="text-muted">Range: 10-40°C</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="humidity" class="form-label">Relative Humidity:</label>
+                            <input type="number" class="form-control" id="humidity" name="humidity" required min="30" max="95" step="0.1" placeholder="e.g., 65.2">
+                            <small class="text-muted">Range: 30-95%</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ph" class="form-label">pH level:</label>
+                            <input type="number" class="form-control" id="ph" name="ph" required min="5.0" max="8.0" step="0.01" placeholder="e.g., 6.5">
+                            <small class="text-muted">Range: 5.0-8.0</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="rainfall" class="form-label">Rainfall:</label>
+                            <input type="number" class="form-control" id="rainfall" name="rainfall" required min="300" max="1500" step="0.1" placeholder="e.g., 750.2">
+                            <small class="text-muted">Range: 300-1500 mm</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="region" class="form-label">Region:</label>
+                        <select class="form-select" id="region" name="region" required>
+                            <option value="">Select Region</option>
+                            {% for region in regions %}
+                            <option value="{{ region }}">{{ region }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Get Recommendations</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="text-center text-muted">
+                    <small>Powered by Machine Learning - Accuracy > 95%</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

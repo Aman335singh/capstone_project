@@ -1,0 +1,49 @@
+/* static/css/styles.css */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+.container {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.jumbotron {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.alert {
+    border-radius: 10px;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+.progress {
+    border-radius: 8px;
+    overflow: hidden;
+}

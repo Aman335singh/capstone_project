@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Commodity Price Prediction - Agriculture Application{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Commodity Price Prediction</h1>
+        <p class="lead">Predict future prices for agricultural commodities</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Input Parameters</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('predict_price') }}" method="post" id="predictionForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="commodity" class="form-label">Commodity</label>
+                            <select class="form-select" id="commodity" name="commodity" required>
+                                {% for commodity in commodities %}
+                                <option value="{{ commodity }}">{{ commodity }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" name="state" required>
+                                {% for state in states %}
+                                <option value="{{ state }}">{{ state }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="average" class="form-label">Average Price (₹/per Kg)</label>
+                            <input type="number" step="0.01" class="form-control" id="average" name="average" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="season" class="form-label">Season</label>
+                            <select class="form-select" id="season" name="season" required>
+                                <option value="1">Winter (Dec-Feb)</option>
+                                <option value="2">Spring (Mar-May)</option>
+                                <option value="3">Summer (Jun-Aug)</option>
+                                <option value="4">Autumn (Sep-Nov)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Prediction Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success w-100">Predict Price</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Set today's date as default
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('date').valueAsDate = new Date();
+    });
+</script>
+{% endblock %}
+{% endblock %}

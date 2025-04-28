@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Error - Agriculture Application{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Error</h4>
+            </div>
+            <div class="card-body text-center">
+                <h1 class="display-1 text-danger"><i class="bi bi-exclamation-triangle-fill"></i></h1>
+                <h3 class="mb-4">Something went wrong</h3>
+                <p class="lead">{{ error }}</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

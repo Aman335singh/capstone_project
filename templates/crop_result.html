@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Crop Recommendation Results - Agriculture Application{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1>Crop Recommendation Results</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Input Parameters</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-sm">
+                    <tbody>
+                        <tr>
+                            <th>Nitrogen (N)</th>
+                            <td>{{ input_data.N }}</td>
+                        </tr>
+                        <tr>
+                            <th>Phosphorus (P)</th>
+                            <td>{{ input_data.P }}</td>
+                        </tr>
+                        <tr>
+                            <th>Potassium (K)</th>
+                            <td>{{ input_data.K }}</td>
+                        </tr>
+                        <tr>
+                            <th>Temperature</th>
+                            <td>{{ input_data.temperature }} °C</td>
+                        </tr>
+                        <tr>
+                            <th>Humidity</th>
+                            <td>{{ input_data.humidity }} %</td>
+                        </tr>
+                        <tr>
+                            <th>pH Value</th>
+                            <td>{{ input_data.ph }}</td>
+                        </tr>
+                        <tr>
+                            <th>Rainfall</th>
+                            <td>{{ input_data.rainfall }} mm</td>
+                        </tr>
+                        <tr>
+                            <th>Region</th>
+                            <td>{{ input_data.region }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="{{ url_for('crop_recommendation') }}" class="btn btn-outline-primary mt-3 w-100">Try Another</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Recommended Crops</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h3>Best Match</h3>
+                    <div class="display-5 my-3">{{ result.predicted_crop }}</div>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                            style="width: {{ (result.confidence * 100)|round }}%;" 
+                            aria-valuenow="{{ (result.confidence * 100)|round }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100">{{ (result.confidence * 100)|round }}%</div>
+                    </div>
+                    <p class="text-muted">Confidence Score</p>
+                </div>
+                
+                <h4 class="mb-3">Alternative Recommendations</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Crop</th>
+                                <th>Confidence Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rec in result.top_recommendations[1:] %}
+                            <tr>
+                                <td>{{ rec.crop }}</td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar bg-info" role="progressbar" 
+                                            style="width: {{ (rec.confidence * 100)|round }}%;" 
+                                            aria-valuenow="{{ (rec.confidence * 100)|round }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">{{ (rec.confidence * 100)|round }}%</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <h5 class="alert-heading">How to interpret these results</h5>
+                    <p>The confidence score indicates how certain the model is about its recommendation. Higher scores mean higher confidence.</p>
+                    <p>Consider the alternative recommendations if they have similar confidence scores to the best match, or if you have had success with those crops in the past.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

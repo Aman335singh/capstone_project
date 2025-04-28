@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Price Prediction Results - Agriculture Application{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <h1>Commodity Price Prediction Results</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Predicted Price</h4>
+            </div>
+            <div class="card-body text-center">
+                <h5>The predicted price for <span class="text-primary">{{ result.commodity }}</span> in <span class="text-primary">{{ result.state }}</span> on <span class="text-primary">{{ result.date }}</span> is:</h5>
+                <div class="display-3 my-4">₹ {{ result.prediction }}<small class="text-muted">/KG</small></div>
+                
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <a href="{{ url_for('commodity_prediction') }}" class="btn btn-outline-primary w-100">Try Another Prediction</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary w-100">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="alert alert-info mb-0">
+                    <h5 class="alert-heading">Note</h5>
+                    <p class="mb-0">This prediction is based on historical data, seasonal factors, and current market trends. Actual prices may vary due to unforeseen market conditions, government policies, or other factors.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
